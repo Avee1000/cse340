@@ -4,3 +4,9 @@
 *:after {
   box-sizing: border-box;
 }
+
+header {
+  background-color: black;
+  display: block;
+  width: 100%;
+}
