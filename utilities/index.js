@@ -65,21 +65,23 @@ Util.buildClassificationGrid = async function(data){
 }
 
 Util.buildDetailView = async function (item) {
-  let detail
-  const price = Number(item.inv_price);
-  const miles = Number(item.inv_miles);
-  detail += '<div class="detail-container">';
-  detail += `<img src="${item.inv_image}" alt="Image of ${item.inv_make} ${item.inv_model}">`;
-  detail += '<div>';
-  detail += `<h2>${item.inv_make} ${item.inv_model}</h2>`;
-  detail += `<p>Price: $${!isNaN(price) ? price.toLocaleString() : item.inv_price}</p>`;
-  detail += `<p>Mileage: ${!isNaN(miles) ? miles.toLocaleString() : item.inv_miles} miles</p>`;
-  detail += `<p>Year: ${item.inv_year}</p>`;
-  detail += `<p>Description: ${item.inv_description}</p>`;
-  detail += `<p>Color: ${item.inv_color}</p>`;
-  detail += '</div>';
-  detail += '</div>';
-  return detail;
+  return `
+  <div class="vehicle-background">
+    <div id="vehicle-detail-container">
+      <div class="vehicle-detail">
+        <img src="${item.inv_image}" alt="Image of ${item.inv_make} ${item.inv_model}">
+        <div class="vehicle-info">
+          <h2>${item.inv_make} ${item.inv_model}</h2>
+          <p>Price: $${item.inv_price.toLocaleString()}</p>
+          <p>Mileage: ${item.inv_miles.toLocaleString()} miles</p>
+          <p>Year: ${item.inv_year}</p>
+          <p>Description: ${item.inv_description}</p>
+          <p>Color: ${item.inv_color}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  `
 }
 
 

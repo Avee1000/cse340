@@ -157,9 +157,16 @@ nav {
   line-height: 3;
 }
 
+
+#vehicle-detail-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+}
 .vehicle-detail {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: row;
   gap: 1rem;
   align-items: flex-start;
 }
@@ -167,7 +174,16 @@ nav {
 .vehicle-detail img {
   max-width: 100%;
   flex: 1 1 300px;
-  border-radius: 8px;
+}
+.vehicle-detail img::after{
+  content: "dfdfdfd";
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: red;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .vehicle-info {
