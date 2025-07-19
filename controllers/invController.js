@@ -25,7 +25,7 @@ invCont.buildByInventoryId = async function (req, res) {
   const nav = await utilities.getNav()
   if (data.length > 0) {
     const itemHTML = await utilities.buildDetailView(data)
-    res.render("./inventory/classification", {
+    res.render("./inventory/detail", {
       title: `${data.inv_make} ${data.inv_model}`,
       nav,
       itemHTML,
