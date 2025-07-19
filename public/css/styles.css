@@ -157,6 +157,29 @@ nav {
   line-height: 3;
 }
 
+.vehicle-detail {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+.vehicle-detail img {
+  max-width: 100%;
+  flex: 1 1 300px;
+  border-radius: 8px;
+}
+
+.vehicle-info {
+  flex: 1 1 300px;
+}
+
+@media (max-width: 768px) {
+  .vehicle-detail {
+    flex-direction: column;
+  }
+}
+
 
 
 @media screen and (min-width: 790px) {
