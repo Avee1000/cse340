@@ -13,6 +13,8 @@ const static = require("./routes/static")
 const baseController = require("./controllers/baseController")
 const route = require("./routes/inventoryRoute")
 const utilities = require("./utilities/")
+const errorController = require("./controllers/errorController")
+
 
 /* ***********************
  * View Engine and Templates
@@ -30,6 +32,10 @@ app.use(static)
 app.get("/", utilities.handleErrors(baseController.buildHome))
 // Inventory routes
 app.use("/inv", route)
+// Error route for testing
+// This route is used to trigger a 500 error for testing purposes
+app.get('/error', utilities.handleErrors(errorController.triggerError))               
+
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
   next({status: 404, message: 'Sorry, we appear to have lost that page.'})
@@ -43,9 +49,12 @@ app.use(async (req, res, next) => {
 app.use(async (err, req, res, next) => {
   let nav = await utilities.getNav()
   console.error(`Error at: "${req.originalUrl}": ${err.message}`)
-  if(err.status == 404){ message = err.message} else {message = 'Oh no! There was a crash. Maybe try a different route?'}
-  res.render("errors/error", {
-    title: err.status || 'Server Error',
+  const status = err.status || 500
+  const message = status === 404
+    ? err.message
+    : err.message || 'Oh no! There was a crash. Maybe try a different route?'
+  res.status(status).render("errors/error", {
+    title: `${status} Error`,
     message,
     nav
   })

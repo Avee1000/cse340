@@ -68,14 +68,16 @@ Util.buildDetailView = async function (item) {
   <div class="vehicle-background">
     <div id="vehicle-detail-container">
       <div class="vehicle-detail">
-        <img src="${item.inv_image}" alt="Image of ${item.inv_make} ${item.inv_model}">
+        <div class="vehicle-image-cont">
+          <img src="${item.inv_image}" alt="Image of ${item.inv_make} ${item.inv_model}">
+        </div>
         <div class="vehicle-info">
           <h2>${item.inv_make} ${item.inv_model}</h2>
-          <p>Price: $${item.inv_price.toLocaleString()}</p>
-          <p>Mileage: ${item.inv_miles.toLocaleString()} miles</p>
+          <p>Price: $${new Intl.NumberFormat('en-US').format(item.inv_price)}</p>
+          <p>Mileage: ${new Intl.NumberFormat('en-US').format(item.inv_miles)} miles</p>
           <p>Year: ${item.inv_year}</p>
-          <p>Description: ${item.inv_description}</p>
           <p>Color: ${item.inv_color}</p>
+          <p><span class="vehicle-desc">Description</span> ${item.inv_description}</p>
         </div>
       </div>
     </div>
