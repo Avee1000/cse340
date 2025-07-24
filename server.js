@@ -10,6 +10,7 @@ const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
+const bodyParser = require("body-parser")
 
 const route = require("./routes/inventoryRoute") 
 const accountRoute = require("./routes/accountRoute")
@@ -45,7 +46,8 @@ app.use(function(req, res, next){
   res.locals.messages = require('express-messages')(req, res)
   next()
 })
-
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 
 /* ***********************
  * Routes
@@ -60,7 +62,6 @@ app.use("/account", accountRoute)
 // Error route for testing
 // This route is used to trigger a 500 error for testing purposes
 app.get('/error', utilities.handleErrors(errorController.triggerError))               
-
 // File Not Found Route - must be last route in list
 app.use(async (req, res, next) => {
   next({status: 404, message: 'Sorry, we appear to have lost that page.'})
