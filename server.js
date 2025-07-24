@@ -10,10 +10,17 @@ const expressLayouts = require("express-ejs-layouts")
 const env = require("dotenv").config()
 const app = express()
 const static = require("./routes/static")
-const baseController = require("./controllers/baseController")
-const route = require("./routes/inventoryRoute")
+
+const route = require("./routes/inventoryRoute") 
+const accountRoute = require("./routes/accountRoute")
+
 const utilities = require("./utilities/")
+
+const baseController = require("./controllers/baseController")
 const errorController = require("./controllers/errorController")
+
+const session = require("express-session")
+const pool = require('./database/')
 
 
 /* ***********************
@@ -22,6 +29,22 @@ const errorController = require("./controllers/errorController")
 app.set("view engine", "ejs")
 app.use(expressLayouts)
 app.set("layout", "./layouts/layout") // not at views root
+app.use(session({
+store: new (require('connect-pg-simple')(session))({
+  createTableIfMissing: true,
+  pool,
+}),
+secret: process.env.SESSION_SECRET,
+resave: true,
+saveUninitialized: true,
+name: 'sessionId',
+}))
+// Express Messages Middleware
+app.use(require('connect-flash')())
+app.use(function(req, res, next){
+  res.locals.messages = require('express-messages')(req, res)
+  next()
+})
 
 
 /* ***********************
@@ -32,6 +55,8 @@ app.use(static)
 app.get("/", utilities.handleErrors(baseController.buildHome))
 // Inventory routes
 app.use("/inv", route)
+// Account routes
+app.use("/account", accountRoute)
 // Error route for testing
 // This route is used to trigger a 500 error for testing purposes
 app.get('/error', utilities.handleErrors(errorController.triggerError))               
