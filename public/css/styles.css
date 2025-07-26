@@ -236,7 +236,6 @@ nav {
 .vehicle-info h2 {
   font-size: clamp(1.5em, 1.8em, 3em);
   margin-bottom: 1rem;
-  font-optical-sizing: auto;
   font-weight: 900;
   font-style: normal;
 }
@@ -395,6 +394,17 @@ small {
   text-align: center;
   display: inline-block;
 }
+
+input:required:invalid, input:focus:invalid {
+ background-image: url(/images/invalid.png);
+ background-position: right top;
+ background-repeat: no-repeat;
+}
+ input:required:valid {
+ background-image: url(/images/valid.png);
+ background-position: right top;
+ background-repeat: no-repeat;
+ }
 
 @media (max-width: 768px) {
   .vehicle-detail {
