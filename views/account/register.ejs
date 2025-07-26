@@ -1,6 +1,10 @@
 <div class="register-container">
   <h1>Register</h1>
 
+  <h1>
+    <%- messages() %>
+  </h1>
+
   <form action="/account/register" method="POST">
     <label for="first_name">First name</label>
     <input type="text" id="first_name" name="account_firstname" required>
@@ -19,7 +23,7 @@
         name="account_password"
         required
         minlength="12"
-        pattern="^(?=.*[A-Z])(?=.*\\d)(?=.*[^\\w\\s]).{12,}$"
+        pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{12,}$"
         title="Password must be at least 12 characters, contain 1 capital letter, 1 number, and 1 special character"
       >
       <span class="toggle-password" onclick="togglePassword()">👁️</span>

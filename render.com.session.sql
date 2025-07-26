@@ -1,1 +1,1 @@
-SELECT * FROM public.inventory
+SELECT * FROM public.acount_type
