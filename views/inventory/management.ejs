@@ -1,0 +1,17 @@
+
+<main class="management-container">
+  <h1>Inventory Management</h1>
+
+  <% if (message) { %>
+    <div class="flash-message"><%= message %></div>
+  <% } %>
+
+  <section class="management-actions">
+    <a href="/inv/add-classification" class="btn">Add Classification</a>
+    <a href="/inv/add-inventory" class="btn">Add Inventory</a>
+  </section>
+
+  <section>
+    <p>Use the buttons above to manage inventory classifications and items.</p>
+  </section>
+</main>

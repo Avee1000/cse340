@@ -1,0 +1,20 @@
+// Needed Resources 
+const express = require("express")
+const router = new express.Router() 
+const invController = require("../controllers/invController")
+const managementValidate = require("../utilities/management-validation")
+const utilities = require("../utilities/")
+
+// Route to management view
+router.get("/", utilities.handleErrors(invController.buildManagement))
+
+// Route to build add-classification view
+router.get("/add-classification", utilities.handleErrors(invController.buildAddClassification))
+
+router.post("/add-classification",
+    managementValidate.addClassificationRules(),
+    managementValidate.checkClassificationData,
+    invController.processAddClassification
+)
+
+module.exports = router;

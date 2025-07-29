@@ -14,6 +14,7 @@ const bodyParser = require("body-parser")
 
 const route = require("./routes/inventoryRoute") 
 const accountRoute = require("./routes/accountRoute")
+const managementRoute = require("./routes/managementRoute")
 
 const utilities = require("./utilities/")
 
@@ -55,6 +56,8 @@ app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-
 app.use(static)
 //Index route
 app.get("/", utilities.handleErrors(baseController.buildHome))
+// Management route
+app.use("/inv", managementRoute)
 // Inventory routes
 app.use("/inv", route)
 // Account routes

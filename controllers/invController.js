@@ -4,6 +4,55 @@ const utilities = require("../utilities/")
 const invCont = {}
 
 /* ***************************
+ *  Build management view
+ * ************************** */
+invCont.buildManagement = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  res.render("./inventory/management", {
+    title: "Inventory Management",
+    nav,
+    message: req.flash("message"),
+  })
+}
+
+/* ***************************
+ *  Build add-classification view
+ * ************************** */
+invCont.buildAddClassification = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  res.render("./inventory/add-classification", {
+    title: "Add Classification",
+    nav,
+    errors: null
+  })
+}
+
+/* ***************************
+ *  Process classification addition
+ * ************************** */
+invCont.processAddClassification = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  const { classification_name } = req.body
+  const result = await invModel.addClassification(classification_name)
+
+  if (result) {
+    req.flash("notice", `Successfully added ${classification_name} classification.`)
+    res.status(201).render("./inventory/add-classification", {
+      title: "Add Classification",
+      nav,
+    })
+  } else {
+    req.flash("notice", "Sorry, the classification addition failed.")
+    res.status(501).render("./inventory/add-classification", {
+      title: "Add Classification",
+      nav,
+    })
+  }
+}
+
+
+
+/* ***************************
  *  Build inventory by classification view
  * ************************** */
 invCont.buildByClassificationId = async function (req, res, next) {
