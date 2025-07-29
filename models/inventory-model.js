@@ -13,16 +13,14 @@ async function getClassifications(){
  * ************************** */
 async function addClassification(classification_name) {
   try {
-     const data = await pool.query(
-      `INSERT INTO classification (classification_name)
-      VALUES($1)`,
-      [classification_name]
-    )
-    return data.rows[0]
+    const sql = "INSERT INTO classification (classification_name) VALUES ($1) RETURNING *"
+    return await pool.query(sql, [classification_name])
   } catch (error) {
-    console.error("addClassification" + error)
+    console.error("addClassification error:", error.message)
+    throw error
   }
 }
+
 
 /* **********************
  *   Check for existing classification_name

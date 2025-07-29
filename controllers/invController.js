@@ -11,7 +11,7 @@ invCont.buildManagement = async function (req, res, next) {
   res.render("./inventory/management", {
     title: "Inventory Management",
     nav,
-    message: req.flash("message"),
+    errors: null
   })
 }
 
@@ -37,8 +37,9 @@ invCont.processAddClassification = async function (req, res, next) {
 
   if (result) {
     req.flash("notice", `Successfully added ${classification_name} classification.`)
-    res.status(201).render("./inventory/add-classification", {
-      title: "Add Classification",
+    let nav = await utilities.getNav()
+    res.status(201).render("./inventory/management", {
+      title: "Inventory Management",
       nav,
     })
   } else {

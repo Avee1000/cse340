@@ -15,6 +15,7 @@ validate.addClassificationRules = () => {
         .trim()
         .escape()
         .notEmpty()
+        .matches(/^[A-Za-z0-9]+$/)
         .withMessage("A valid classification name is required.")
         .custom(async (classification_name) => {
             const classificationExists = await managementModel.checkExistingClassification(classification_name)
@@ -33,12 +34,10 @@ validate.checkClassificationData = async (req, res, next) => {
     const {
         classification_name
     } = req.body
-    let errors = []
     errors = validationResult(req)
     if (!errors.isEmpty()) {
         let nav = await utilities.getNav()
         res.render("inventory/add-classification", {
-            errors,
             title: "Add Classification",
             nav,
             classification_name

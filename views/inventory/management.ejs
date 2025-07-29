@@ -2,9 +2,7 @@
 <main class="management-container">
   <h1>Inventory Management</h1>
 
-  <% if (message) { %>
-    <div class="flash-message"><%= message %></div>
-  <% } %>
+<div class="flash-message"><%- messages() %></div>
 
   <section class="management-actions">
     <a href="/inv/add-classification" class="btn">Add Classification</a>

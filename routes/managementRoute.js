@@ -14,7 +14,7 @@ router.get("/add-classification", utilities.handleErrors(invController.buildAddC
 router.post("/add-classification",
     managementValidate.addClassificationRules(),
     managementValidate.checkClassificationData,
-    invController.processAddClassification
+    utilities.handleErrors(invController.processAddClassification)
 )
 
 module.exports = router;
