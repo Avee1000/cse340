@@ -22,6 +22,8 @@ router.post("/add-classification",
 )
 
 router.post("/add-inventory",
+    managementValidate.addInventoryRules(),
+    managementValidate.checkInventoryData,
     utilities.handleErrors(invController.processAddInventory)
 )
 
