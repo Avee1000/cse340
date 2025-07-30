@@ -36,6 +36,41 @@ async function checkExistingClassification(classification_name){
 }
 
 
+
+// /* **********************
+//  *   Check for classification_id of classification_name
+//  * ********************* */
+// async function getClassificationId(classification_name){
+//   try {
+//     const sql = "SELECT classification_id FROM classification WHERE classification_name = $1"
+//     const classificationId = await pool.query(sql, [classification_name])
+//     return classificationId.rows[0]
+//   } catch (error) {
+//     return error.message
+//   }
+// }
+
+
+/* ***************************
+ *  Insert into classification data
+ * ************************** */
+async function addInventory(inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id) {
+  try {
+    const sql = `
+      INSERT INTO inventory (
+        inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail,
+        inv_price, inv_miles, inv_color, classification_id
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+      RETURNING *
+    `;
+    const values = [inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, classification_id];
+    return await pool.query(sql, values);
+  } catch (error) {
+    console.error("addInventory error:", error.message);
+    throw error;
+  }
+}
+
 /* ***************************
  *  Get all inventory items and classification_name by classification_id
  * ************************** */
@@ -82,5 +117,6 @@ module.exports = {
   getInventoryByClassificationId,
   getInventoryById,
   addClassification,
-  checkExistingClassification
+  checkExistingClassification,
+  addInventory
 };

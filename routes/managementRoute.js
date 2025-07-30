@@ -21,4 +21,8 @@ router.post("/add-classification",
     utilities.handleErrors(invController.processAddClassification)
 )
 
+router.post("/add-inventory",
+    utilities.handleErrors(invController.processAddInventory)
+)
+
 module.exports = router;

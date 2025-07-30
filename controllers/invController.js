@@ -67,6 +67,44 @@ invCont.buildAddInventory = async function (req, res, next) {
 
 
 /* ***************************
+ *  Process inventory addition
+ * ************************** */
+invCont.processAddInventory = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  const {
+    inv_make,
+    inv_model,
+    inv_year,
+    inv_description,
+    inv_image,
+    inv_thumbnail,
+    inv_price,
+    inv_miles,
+    inv_color,
+    classification_id
+  } = req.body
+  const numericId = parseInt(classification_id);
+
+  const result = await invModel.addInventory(inv_make, inv_model, inv_year, inv_description, inv_image, inv_thumbnail, inv_price, inv_miles, inv_color, numericId)
+
+    if (result) {
+    req.flash("notice", `Successfully added ${inv_make} inventory.`)
+    let nav = await utilities.getNav()
+    res.status(201).render("./inventory/management", {
+      title: "Inventory Management",
+      nav,
+    })
+  } else {
+    req.flash("notice", "Sorry, the inventory addition failed.")
+    res.status(501).render("./inventory/add-inventory", {
+      title: "Add inventory",
+      nav,
+    })
+  }
+}
+
+
+/* ***************************
  *  Build inventory by classification view
  * ************************** */
 invCont.buildByClassificationId = async function (req, res, next) {

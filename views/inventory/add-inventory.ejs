@@ -42,10 +42,10 @@
 
         <label for="inv_image">Inventory Image Path</label>
         <input type="text" id="inv_image" name="inv_image" required pattern="^[A-Za-z0-9/._-]+$"
-            title="No spaces or special characters except / . _ -" value="/images/vehicles/no-image.png" disabled>
+            title="No spaces or special characters except / . _ -" value="/images/vehicles/no-image.png" readonly>
 
         <label for="inv_thumbnail">Inventory Image Thumbnail</label>
-        <input type="text" id="inv_thumbnail" name="inv_thumbnail" required pattern="^[A-Za-z0-9/._-]+$" title="No spaces or special characters except / . _ -" value="/images/vehicles/no-image-tn.png" disabled>
+        <input type="text" id="inv_thumbnail" name="inv_thumbnail" required pattern="^[A-Za-z0-9/._-]+$" title="No spaces or special characters except / . _ -" value="/images/vehicles/no-image-tn.png" readonly>
 
         <label for="classification_id">Classification</label>
         <%- classificationOptions %>
