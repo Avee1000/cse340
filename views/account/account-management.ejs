@@ -1,0 +1,15 @@
+<main class="account-management-container">
+  <h1><%= title%></h1>
+
+  <div><%- messages() %></div>
+
+  <% if (errors) { %>
+  <ul class="notice">
+    <% errors.array().forEach(error => { %>
+    <li><%= error.msg %></li>
+    <% }) %>
+  </ul>
+  <% } %>
+
+  <p>You're logged in</p>
+</main>
