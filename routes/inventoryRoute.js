@@ -14,5 +14,8 @@ router.get('/detail/:invId', invController.buildByInventoryId)
 
 router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
 
+// Route to all allow editing of the item's information
+router.get("/edit/:inv_id", utilities.handleErrors(invController.buildEditInventory))
+
 
 module.exports = router;
