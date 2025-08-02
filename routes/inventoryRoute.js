@@ -12,5 +12,7 @@ router.get("/type/:classificationId", invController.buildByClassificationId);
 // Detail view route
 router.get('/detail/:invId', invController.buildByInventoryId)
 
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
+
 
 module.exports = router;

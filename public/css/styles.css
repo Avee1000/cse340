@@ -262,7 +262,7 @@ h1 {
   color: #333;
 }
 
-.flash-message {
+/* .flash-message {
   background-color: #a4fcca;
   color: black;
   padding: 1em;
@@ -270,11 +270,26 @@ h1 {
   border-left: 5px solid #1afc7c;
   display: block;
   width: 100%;
-}
+} */
 .flash-message ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
+}
+
+.manage-inventory {
+  color: #333;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0;
+}
+.manage-inventory #classificationList {
+  width: 50%;
+  margin: 0 auto;
+}
+.manage-inventory p {
+  margin: 0.5rem auto;
 }
 
 form {
@@ -430,12 +445,18 @@ small {
   gap: 1rem;
   margin: 1rem auto;
 }
-
+.management-actions div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem auto;
+}
 .btn {
   display: inline-block;
   background-color: #0077cc;
   color: #fff;
-  padding: 0.5rem 1rem;
+  padding: 0.6rem 1rem;
   text-decoration: none;
   border-radius: 4px;
   width: 160px;
@@ -541,10 +562,10 @@ small {
     font-family: Nunito, sans-serif;
   }
 
-  .management-actions {
+
+  .management-actions div {
     display: flex;
     flex-direction: row;
-    justify-content: center;
-    align-items: center;
+    gap: 1rem;
   }
 }
