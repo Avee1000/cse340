@@ -18,6 +18,9 @@ router.get("/getInventory/:classification_id", utilities.handleErrors(invControl
 // Route to all allow editing of the item's information
 router.get("/edit/:inv_id", utilities.handleErrors(invController.buildEditInventory))
 
+// Route to delete inventory from the database
+router.get("/delete/:inv_id", utilities.handleErrors(invController.buildDeleteInventory))
+
 // Route to update the inventory item
 router.post("/update/",
     managementValidate.addInventoryRules(),
