@@ -14,7 +14,7 @@
         <%- messages() %>
     </div>
 
-    <form action="/inv/update" method="post">
+    <form action="/inv/update" method="post" id="updateForm">
         <input type="hidden" name="inv_id" <% if(locals.inv_id) { %> value="<%= locals.inv_id %>" <% } %>>
 
         <label for="inv_make">Inventory Make</label>
@@ -53,6 +53,8 @@
         <label for="classification_id">Classification</label>
         <%- classificationOptions %>
 
-        <button type="submit">Update Vehicle</button>
+        <button type="submit" disabled>Update Vehicle</button>
     </form>
 </div>
+
+<script src="/js/inv-update.js"></script>
