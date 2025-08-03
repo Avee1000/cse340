@@ -35,6 +35,19 @@ async function checkExistingClassification(classification_name){
   }
 }
 
+async function checkIfInventoryExists(make, model, year) {
+  try {
+    const sql = `
+      SELECT * FROM inventory 
+      WHERE inv_make = $1 AND inv_model = $2 AND inv_year = $3
+    `
+    const result = await pool.query(sql, [make, model, year])
+    return result.rowCount > 0 // true if it exists
+  } catch (error) {
+    throw new Error("Database error during inventory check")
+  }
+}
+
 
 
 // /* **********************
@@ -103,6 +116,23 @@ async function getInventoryById(inv_id) {
 
 
 /* ***************************
+ *  Delete Inventory Data
+ * ************************** */
+async function deleteInventory(
+  inv_id,
+) {
+  try {
+    const sql =
+      "DELETE FROM inventory WHERE inv_id = $1 "
+    const data = await pool.query(sql, [inv_id])
+    return data
+  } catch (error) {
+    console.error("Delete Inventory error: " + error)
+  }
+}
+
+
+/* ***************************
  *  Update Inventory Data
  * ************************** */
 async function updateInventory(
@@ -136,9 +166,10 @@ async function updateInventory(
     ])
     return data.rows[0]
   } catch (error) {
-    console.error("model error: " + error)
+    console.error("Update error: " + error)
   }
 }
+
 
 // async function testGetInventory() {
 //   try {
@@ -158,5 +189,7 @@ module.exports = {
   addClassification,
   checkExistingClassification,
   addInventory,
-  updateInventory
+  checkIfInventoryExists,
+  updateInventory,
+  deleteInventory
 };

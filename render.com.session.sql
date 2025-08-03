@@ -1,4 +1,4 @@
-delete from classification where classification_name = 'Bikes'
+delete from classification where classification_name = 'Boats'
 
 select * from classification
 
