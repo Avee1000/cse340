@@ -161,4 +161,70 @@ async function logOut(req, res) {
   return res.redirect("/")
 }
 
-module.exports = { buildLogin, buildRegister, buildRegisterAccount, accountLogin, buildAccountManagement, logOut }
+
+/* ****************************************
+*  Build update account view
+* *************************************** */
+async function buildUpdateAccount(req, res) {
+  let nav = await utilities.getNav()
+  const accountData = res.locals.accountData
+  res.render("account/update", {
+    title: "Update Account Information",
+    nav,
+    errors: null,
+    account_firstname: accountData.account_firstname,
+    account_lastname: accountData.account_lastname,
+    account_email: accountData.account_email,
+  })
+}
+
+async function updateAccount(req, res) {
+  let nav = await utilities.getNav()
+  const existingEmail = res.locals.accountData.account_email
+  const { account_firstname, account_lastname, account_email, account_password } = req.body
+  const hashedPassword = await bcrypt.hashSync(account_password, 10)
+
+  const updateResult = await accountModel.updateAccount(
+    account_firstname,
+    account_lastname,
+    account_email,
+    hashedPassword,
+    existingEmail
+  )
+
+    // 🔁 Step 2: Create new token with updated info
+  delete updateResult.account_password
+  const newToken = jwt.sign(updateResult, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: 3600 * 1000
+  })
+
+  // 🔁 Step 3: Set new token in cookie
+  res.cookie("jwt", newToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV !== "development",
+    maxAge: 3600 * 1000
+  })
+
+
+  if (updateResult) {
+    req.flash("notice", "Your account has been updated successfully.")
+    res.redirect("/")
+  } else {
+    req.flash("notice", "Sorry, the update failed. Please try again.")
+    res.status(501).render("account/update", {
+      title: "Update Account",
+      nav
+    })
+  }
+}
+
+module.exports = {
+  buildLogin,
+  buildRegister,
+  buildRegisterAccount,
+  accountLogin,
+  buildAccountManagement,
+  logOut,
+  buildUpdateAccount,
+  updateAccount
+}

@@ -16,6 +16,9 @@ router.get("/register", utilities.handleErrors(accountController.buildRegister))
 // Route to handle user logOut
 router.get("/logout", utilities.handleErrors(accountController.logOut))
 
+// Route to build the update account view
+router.get("/update", utilities.checkLogin, utilities.handleErrors(accountController.buildUpdateAccount))
+
 // Route to handle user registration
 router.post("/register",
     regValidate.registrationRules(),
@@ -28,5 +31,12 @@ router.post(
     regValidate.loginRules(),
     regValidate.checkloginData,
     utilities.handleErrors(accountController.accountLogin))
+
+// Process the update account
+router.post(
+    "/update",
+    regValidate.updateRules(),
+    regValidate.checkUpdateData,
+    utilities.handleErrors(accountController.updateAccount))
 
 module.exports = router

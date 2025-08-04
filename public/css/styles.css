@@ -490,6 +490,10 @@ small {
   color: #005fa3;
 }
 
+.update-container {
+  margin: 2rem auto;
+}
+
 
 @media screen and (min-width: 790px) {
     body {
