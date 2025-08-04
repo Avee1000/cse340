@@ -13,6 +13,9 @@ router.get("/login", utilities.handleErrors(accountController.buildLogin))
 // Route to build the registration view
 router.get("/register", utilities.handleErrors(accountController.buildRegister))
 
+// Route to handle user logOut
+router.get("/logout", utilities.handleErrors(accountController.logOut))
+
 // Route to handle user registration
 router.post("/register",
     regValidate.registrationRules(),
@@ -24,7 +27,6 @@ router.post(
     "/login",
     regValidate.loginRules(),
     regValidate.checkloginData,
-    utilities.handleErrors(accountController.accountLogin)
-)
+    utilities.handleErrors(accountController.accountLogin))
 
 module.exports = router

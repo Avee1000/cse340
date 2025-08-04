@@ -467,7 +467,28 @@ small {
   background-color: #005fa3;
 }
 
+.greetings {
+  text-align: center;
+  margin: 1rem 0;
+  font-weight: 400;
+}
 
+.account-management-links {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.account-management-links a {
+  text-decoration: none;
+  color: #0077cc;
+  font-weight: 600;
+}
+
+.account-management-links a:hover {
+  color: #005fa3;
+}
 
 
 @media screen and (min-width: 790px) {
@@ -562,10 +583,18 @@ small {
     font-family: Nunito, sans-serif;
   }
 
-
   .management-actions div {
     display: flex;
     flex-direction: row;
     gap: 1rem;
+  }
+
+  .accountLinks {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+  }
+  .accountLinks a {
+    font-weight: 300 !important;
   }
 }

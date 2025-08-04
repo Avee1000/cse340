@@ -22,6 +22,7 @@ const utilities = require("./utilities/")
 
 const baseController = require("./controllers/baseController")
 const errorController = require("./controllers/errorController")
+const accountController = require("./controllers/accountController")
 
 const session = require("express-session")
 const pool = require('./database/')
@@ -52,7 +53,8 @@ app.use(function(req, res, next){
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
 app.use(cookieParser()) // for parsing cookies
-app.use(utilities.checkJWTToken) // Middleware to check JWT token validity
+// Middleware to check JWT token validity
+app.use(utilities.checkJWTToken) 
 
 
 /* ***********************

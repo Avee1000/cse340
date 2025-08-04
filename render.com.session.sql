@@ -18,3 +18,6 @@ SELECT account_firstname, account_email, account_type FROM account;
 
 
 SELECT * from inventory
+
+SELECT account_id, account_firstname, account_lastname, account_email, account_type, account_password FROM account WHERE account_email = 'manager@340.edu';
+

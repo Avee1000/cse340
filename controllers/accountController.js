@@ -85,16 +85,31 @@ async function buildRegisterAccount(req, res) {
 }
 
 
-/*******************
+/************************************************
 *  Deliver account management view
 * *************************************** */
 async function buildAccountManagement(req, res, next) {
-    let nav = await utilities.getNav()
+  let nav = await utilities.getNav()
+
+  if (res.locals.loggedin) {
+    const firstname = res.locals.accountData.account_firstname
     res.render("./account/account-management", {
-        title: "Account Management",
-        nav,
-        errors: null
+      title: "Account Management",
+      nav,
+      firstname,
+      errors: null
     })
+  }
+
+  // if (res.locals.loggedin && res.locals.accountData.account_type === 'Client') {
+  //   res.render("./account/account-management", {
+  //     title: "Account Management",
+  //     nav,
+  //     firstname,
+  //     errors: null
+  //   })
+    
+  // }
 }
 
 /* ****************************************
@@ -126,7 +141,7 @@ async function accountLogin(req, res) {
       return res.redirect("/account/")
     }
     else {
-      req.flash("message notice", "Please check your credentials and try again.")
+      req.flash("notice", "Please check your credentials and try again.")
       res.status(400).render("account/login", {
         title: "Login",
         nav,
@@ -140,4 +155,10 @@ async function accountLogin(req, res) {
 }
 
 
-module.exports = { buildLogin, buildRegister, buildRegisterAccount, accountLogin, buildAccountManagement }
+async function logOut(req, res) {
+  res.clearCookie("jwt")
+  req.flash("notice", "You have been logged out.")
+  return res.redirect("/")
+}
+
+module.exports = { buildLogin, buildRegister, buildRegisterAccount, accountLogin, buildAccountManagement, logOut }
