@@ -249,7 +249,7 @@ async function updatePassword(req, res) {
       "notice",
       `Congratulations, you've updated your password. Please log in again.`
     )
-    logOut(req, res)
+    res.clearCookie("jwt")
     // Clear the cookie and redirect to login
     let nav = await utilities.getNav()
     res.status(201).render("./account/login", {
