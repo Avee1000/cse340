@@ -491,7 +491,13 @@ small {
 }
 
 .update-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
   margin: 2rem auto;
+}
+.update-container h1 {
+  margin: 0;
 }
 
 

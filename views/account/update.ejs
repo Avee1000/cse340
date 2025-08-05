@@ -14,7 +14,9 @@
     </h4>
 
 
-    <form action="/account/update" method="POST">
+    <form action="/account/updateAccount" method="POST">
+        <input type="number" name="account_id" value="<%= locals.account_id %>" hidden>
+
         <label for="first_name">First name</label>
         <input type="text" id="first_name" name="account_firstname" required autocomplete="given-name"
             value="<%= locals.account_firstname %>">
@@ -27,6 +29,14 @@
         <input type="email" id="email" name="account_email" required placeholder="Enter a valid email address"
             value="<%= locals.account_email %>">
 
+        <button type="submit" disabled>Update account</button>
+    </form>
+
+
+    <form action="/account/updatePassword" method="POST">
+        <input type="number" name="account_id" value="<%= locals.account_id %>" hidden>
+
+
         <label for="password">Create New Password</label>
         <div class="password-wrapper">
             <input type="password" 
@@ -38,10 +48,15 @@
             <span class="toggle-password" onclick="togglePassword()">👁️</span>
         </div>
 
-        <button type="submit">Update account</button>
-    </form>
-</div>
 
+        <label for="password">Confirm New Password</label>
+        <input type="password" id="passwordConfirm" name="account_password_confirm" required minlength="12"
+            pattern="^(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{12,}$">
+
+        <button type="submit">Update password</button>
+    </form>
+
+</div>
 
 <script>
   function togglePassword() {
@@ -56,3 +71,4 @@
     }
   }
 </script>
+<script src="/js/inv-update.js"></script>

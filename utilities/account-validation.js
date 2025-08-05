@@ -149,7 +149,7 @@ validate.checkRegData = async (req, res, next) => {
 /*  **********************************
  *  Update Data Validation Rules
  * ********************************* */
-validate.updateRules = () => {
+validate.updateAccountRules = () => {
     return [
         // firstname is required and must be string
         body("account_firstname")
@@ -178,27 +178,13 @@ validate.updateRules = () => {
         .notEmpty()
         .isEmail()
         .normalizeEmail() // refer to validator.js docs
-        .withMessage("A valid email is required."),
-
-
-        // password is required and must be strong password
-        body("account_password")
-        .trim()
-        .notEmpty()
-        .isStrongPassword({
-            minLength: 12,
-            minLowercase: 1,
-            minUppercase: 1,
-            minNumbers: 1,
-            minSymbols: 1,
-        })
-        .withMessage("Password does not meet requirements."),
+            .withMessage("A valid email is required."),
+        
     ]
 }
 
 
-
-validate.checkUpdateData = async (req, res, next) => {
+validate.checkUpdateAccountData = async (req, res, next) => {
     const {
         account_firstname,
         account_lastname,
@@ -221,5 +207,36 @@ validate.checkUpdateData = async (req, res, next) => {
     next()
 }
 
+validate.updatePasswordRules = () => {
+    return [
+        // password is required and must be strong password
+        body("account_password")
+        .trim()
+        .notEmpty()
+        .isStrongPassword({
+            minLength: 12,
+            minLowercase: 1,
+            minUppercase: 1,
+            minNumbers: 1,
+            minSymbols: 1,
+        })
+        .withMessage("Password does not meet requirements."),
+    ]
+}
+
+validate.checkUpdatePasswordData = async (req, res, next) => {
+    let errors = []
+    errors = validationResult(req)
+    if (!errors.isEmpty()) {
+        let nav = await utilities.getNav()
+        res.render("./account/update", {
+            errors,
+            title: "Update Account",
+            nav,
+        })
+        return
+    }
+    next()
+}
 
 module.exports = validate
