@@ -349,7 +349,19 @@ invCont.deleteInventory = async function (req, res, next) {
   }
 }
 
+invCont.addToWishlist = async function (req, res, next) {
 
+  if (!res.locals.loggedin) {
+    req.flash("notice", "Please login or register to use the wishlist.")
+    res.redirect("/account/login")
+  }
+  const account_id = res.locals.accountData.account_id
+  const { inv_id } = req.body
+  console.log(account_id, inv_id)
+  await invModel.addInventoryToWishlist(account_id, inv_id)
+  req.flash("notice", "Item added to wishlist.")
+  res.redirect("/")
+}
 
 
 module.exports = invCont

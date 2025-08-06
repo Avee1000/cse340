@@ -171,6 +171,29 @@ async function updateInventory(
 }
 
 
+async function addInventoryToWishlist(account_id, inv_id) {
+  try {
+    const sql =
+      "INSERT INTO wishlist (account_id, inv_id) VALUES ($1, $2) RETURNING *"
+    const data = await pool.query(sql, [account_id, inv_id])
+    return data.rows[0]
+  } catch (error) {
+    console.error("Add to wishlist error: " + error)
+  }
+}
+
+
+async function checkExistingInventory(inv_id) {
+  try {
+    const sql = "SELECT * FROM inventory WHERE inv_id = $1"
+    const data = await pool.query(sql, [inv_id])
+    return data.rows[0]
+  } catch (error) {
+    console.error("Check existing inventory error: " + error)
+  }
+  
+}
+
 // async function testGetInventory() {
 //   try {
 //     const data = await getInventoryByClassificationId(1);
@@ -191,5 +214,7 @@ module.exports = {
   addInventory,
   checkIfInventoryExists,
   updateInventory,
-  deleteInventory
+  deleteInventory,
+  addInventoryToWishlist,
+  checkExistingInventory
 };

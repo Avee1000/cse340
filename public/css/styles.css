@@ -500,6 +500,21 @@ small {
   margin: 0;
 }
 
+.name-wishlist {
+  display: flex;
+  flex-direction:column;
+}
+.name-wishlist > h2 > * {
+  margin: 0 0 0.3rem 0;
+}
+.name-wishlist form {
+  all: unset;
+}
+.name-wishlist button {
+  margin-top: 0.3rem;
+  margin-bottom: 0.3rem;
+  width: 160px;
+}
 
 @media screen and (min-width: 790px) {
     body {

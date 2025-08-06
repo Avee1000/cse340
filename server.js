@@ -17,6 +17,7 @@ const bodyParser = require("body-parser")
 const route = require("./routes/inventoryRoute") 
 const accountRoute = require("./routes/accountRoute")
 const managementRoute = require("./routes/managementRoute")
+const wishlistRoute = require("./routes/wishlistRoute")
 
 const utilities = require("./utilities/")
 
@@ -63,6 +64,8 @@ app.use(utilities.checkJWTToken)
 app.use(static)
 //Index route
 app.get("/", utilities.handleErrors(baseController.buildHome))
+// Wishlist route
+app.use("/wishlist", wishlistRoute)
 // Management route
 app.use("/inv", managementRoute)
 // Inventory routes
