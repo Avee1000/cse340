@@ -4,13 +4,19 @@
   res.redirect('/')
 } %>
 
-<%= messages() %>
+<%- messages() %>
 
 <%- wishlist %>
 
 <script>
   const button = document.querySelectorAll('button')
   button.forEach(button => {
-      button.textContent = 'Delete from wishlist'
+      button.textContent = 'Delete from Wishlist'
+      button.className = 'btn'
+  })
+
+  const form = document.querySelectorAll('form')
+  form.forEach(form => {
+      form.action = '/wishlist/delete'
   })
 </script>

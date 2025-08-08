@@ -375,7 +375,6 @@ invCont.buildWishlist = async function (req, res, next) {
   let nav = await utilities.getNav()
   const account_id = res.locals.accountData.account_id
   const wishlistData = await invModel.getWishlistByAccountId(account_id)
-  console.log(wishlistData)
   let list = []
   for (const item of wishlistData) {
     const data = await invModel.getInventoryById(item.inv_id)
@@ -387,6 +386,14 @@ invCont.buildWishlist = async function (req, res, next) {
     nav,
     wishlist
   })
+}
+
+invCont.deleteFromWishlist = async function (req, res, next) {
+  const account_id = res.locals.accountData.account_id
+  const { inv_id } = req.body
+  await invModel.deleteFromWishlist(account_id, inv_id)
+  req.flash("notice", "Vehicle removed from your wishlist.")
+  res.redirect("back")
 }
 
 module.exports = invCont

@@ -521,6 +521,10 @@ small {
   height: 25px;
 }
 
+button.btn {
+  font-weight: 100;
+}
+
 @media screen and (min-width: 790px) {
     body {
     background-image: url('/images/site/small_check.jpg');

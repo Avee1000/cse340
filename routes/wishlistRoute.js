@@ -12,5 +12,9 @@ router.post(
     "/add",
     utilities.handleErrors(invController.addToWishlist))
 
+// Route to delete from Wishlist
+router.post(
+    "/delete",
+    utilities.handleErrors(invController.deleteFromWishlist))
 
 module.exports = router;

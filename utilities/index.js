@@ -88,7 +88,7 @@ Util.buildClassificationList = async function (classification_id = null) {
 Util.buildClassificationGrid = async function (data) {
  if (!data || data.length === 0) {
     return `
-      <p class="notice">Sorry, no matching vehicles could be found.</p>
+      <p class="notice">Sorry, no matching vehicles could be found or there are no vehicles to be displayed.</p>
     `
   }
 
