@@ -356,11 +356,18 @@ invCont.addToWishlist = async function (req, res, next) {
     res.redirect("/account/login")
   }
   const account_id = res.locals.accountData.account_id
+  const wishilistExists = await invModel.checkIfWishlistExists(account_id, req.body.inv_id)
+  
+  if (wishilistExists) {
+    req.flash("notice", "This vehicle is already in your wishlist.")
+    return res.redirect("back")
+  }
+
   const { inv_id } = req.body
   console.log(account_id, inv_id)
   await invModel.addInventoryToWishlist(account_id, inv_id)
-  req.flash("notice", "Item added to wishlist.")
-  res.redirect("/")
+  req.flash("notice", "Vehicle added to your wishlist.")
+  res.redirect("back")
 }
 
 

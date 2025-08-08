@@ -48,6 +48,8 @@ async function checkIfInventoryExists(make, model, year) {
   }
 }
 
+// async function chechIfWishlistExists ()
+
 
 
 // /* **********************
@@ -194,6 +196,18 @@ async function checkExistingInventory(inv_id) {
   
 }
 
+async function checkIfWishlistExists(account_id, inv_id) {
+  try {
+      const sql = `SELECT * FROM wishlist 
+       WHERE account_id = $1 AND inv_id = $2
+     `
+      const result = await pool.query(sql, [account_id, inv_id])
+      return result.rowCount > 0 // returns true if exists
+  } catch (error) {
+      console.error("Check existing wishilist error: " + error)
+  }
+}
+
 // async function testGetInventory() {
 //   try {
 //     const data = await getInventoryByClassificationId(1);
@@ -216,5 +230,6 @@ module.exports = {
   updateInventory,
   deleteInventory,
   addInventoryToWishlist,
-  checkExistingInventory
+  checkExistingInventory,
+  checkIfWishlistExists
 };
