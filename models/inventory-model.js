@@ -208,6 +208,17 @@ async function checkIfWishlistExists(account_id, inv_id) {
   }
 }
 
+async function getWishlistByAccountId(account_id) {
+  try {
+    const res = await pool.query(
+      `SELECT * FROM wishlist WHERE account_id = $1`,
+      [account_id])
+    return res.rows
+  } catch (error) {
+      console.error("get wishlist error " + error)
+  }
+}
+
 // async function testGetInventory() {
 //   try {
 //     const data = await getInventoryByClassificationId(1);
@@ -231,5 +242,6 @@ module.exports = {
   deleteInventory,
   addInventoryToWishlist,
   checkExistingInventory,
-  checkIfWishlistExists
+  checkIfWishlistExists,
+  getWishlistByAccountId
 };

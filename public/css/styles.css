@@ -516,6 +516,11 @@ small {
   width: 160px;
 }
 
+.svg svg {
+  width: 25px;
+  height: 25px;
+}
+
 @media screen and (min-width: 790px) {
     body {
     background-image: url('/images/site/small_check.jpg');
@@ -618,6 +623,8 @@ small {
     display: flex;
     flex-direction: row;
     gap: 1.5rem;
+    justify-content: center;
+    align-items: center;
   }
   .accountLinks a {
     font-weight: 300 !important;

@@ -371,4 +371,22 @@ invCont.addToWishlist = async function (req, res, next) {
 }
 
 
+invCont.buildWishlist = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  const account_id = res.locals.accountData.account_id
+  const wishlistData = await invModel.getWishlistByAccountId(account_id)
+  console.log(wishlistData)
+  let list = []
+  for (const item of wishlistData) {
+    const data = await invModel.getInventoryById(item.inv_id)
+    list.push(data[0])
+  }
+  const wishlist =  await utilities.buildClassificationGrid(list)
+  res.render("./inventory/wishlist", {
+    title: res.locals.accountData.account_firstname + "'s " + " Wishlist",
+    nav,
+    wishlist
+  })
+}
+
 module.exports = invCont

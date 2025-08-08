@@ -1,0 +1,16 @@
+<% if (title) { %>
+<h1><%= title %></h1>
+<% } else {
+  res.redirect('/')
+} %>
+
+<%= messages() %>
+
+<%- wishlist %>
+
+<script>
+  const button = document.querySelectorAll('button')
+  button.forEach(button => {
+      button.textContent = 'Delete from wishlist'
+  })
+</script>
