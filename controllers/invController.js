@@ -11,7 +11,7 @@ invCont.buildManagement = async function (req, res, next) {
 
   // Not logged in
   if (!res.locals.loggedin) {
-    req.flash("notice", "You must be logged in to manage inventory.")
+    req.flash("error", "You must be logged in to manage inventory.")
     return res.redirect("/account/login")
   }
   // Logged in but not authorized
@@ -19,7 +19,7 @@ invCont.buildManagement = async function (req, res, next) {
     res.locals.accountData.account_type !== 'Admin' &&
     res.locals.accountData.account_type !== 'Employee'
   ) {
-    req.flash("notice", "You do not have permission to manage inventory.")
+    req.flash("error", "You do not have permission to manage inventory.")
     return res.redirect("/account/login")
   }
   // Authorized (Admin or Employee)
@@ -56,7 +56,7 @@ invCont.processAddClassification = async function (req, res, next) {
   const result = await invModel.addClassification(classification_name)
   const classificationOptions = await utilities.buildClassificationList()
   if (result) {
-    req.flash("notice", `Successfully added ${classification_name} classification.`)
+    req.flash("success", `Successfully added ${classification_name} classification.`)
     let nav = await utilities.getNav()
     res.status(201).render("./inventory/management", {
       title: "Inventory Management",
@@ -65,7 +65,7 @@ invCont.processAddClassification = async function (req, res, next) {
       errors: null
     })
   } else {
-    req.flash("notice", "Sorry, the classification addition failed.")
+    req.flash("error", "Sorry, the classification addition failed.")
     res.status(501).render("./inventory/add-classification", {
       title: "Add Classification",
       nav,
@@ -112,7 +112,7 @@ invCont.processAddInventory = async function (req, res, next) {
   // ✅ Check if inventory already exists FIRST
   const exists = await invModel.checkIfInventoryExists(inv_make, inv_model, inv_year)
   if (exists) {
-    req.flash("notice", "This inventory item already exists.")
+    req.flash("error", "This inventory item already exists.")
     return res.status(400).render("./inventory/add-inventory", {
       title: "Add Inventory",
       nav,
@@ -129,7 +129,7 @@ invCont.processAddInventory = async function (req, res, next) {
   )
 
   if (result) {
-    req.flash("notice", `Successfully added ${inv_make} inventory.`)
+    req.flash("success", `Successfully added ${inv_make} inventory.`)
     return res.status(201).render("./inventory/management", {
       title: "Inventory Management",
       nav,
@@ -137,7 +137,7 @@ invCont.processAddInventory = async function (req, res, next) {
       errors: null
     })
   } else {
-    req.flash("notice", "Sorry, the inventory addition failed.")
+    req.flash("error", "Sorry, the inventory addition failed.")
     return res.status(501).render("./inventory/add-inventory", {
       title: "Add Inventory",
       nav,
@@ -260,12 +260,12 @@ invCont.updateInventory = async function (req, res, next) {
 
   if (updateResult) {
     const itemName = updateResult.inv_make + " " + updateResult.inv_model
-    req.flash("notice", `The ${itemName} was successfully updated.`)
+    req.flash("success", `The ${itemName} was successfully updated.`)
     res.redirect("/inv/")
   } else {
     const classificationOptions = await utilities.buildClassificationList(classification_id)
     const itemName = `${inv_make} ${inv_model}`
-    req.flash("notice", "Sorry, the insert failed.")
+    req.flash("error", "Sorry, the insert failed.")
     res.status(501).render("inventory/edit-inventory", {
       title: "Edit " + itemName,
       nav,
@@ -331,11 +331,11 @@ invCont.deleteInventory = async function (req, res, next) {
 
   if (updateResult) {
     const itemName = req.body.inv_make + " " + req.body.inv_model
-    req.flash("notice", `The ${itemName} was successfully delete.`)
+    req.flash("success", `The ${itemName} was successfully delete.`)
     res.redirect("/inv/")
   } else {
     const itemName = `${inv_make} ${inv_model}`
-    req.flash("notice", "Sorry, the delete failed.")
+    req.flash("error", "Sorry, the delete failed.")
     res.status(501).render("./inventory/delete-confirm", {
       title: "Delete " + itemName,
       nav,
@@ -352,21 +352,21 @@ invCont.deleteInventory = async function (req, res, next) {
 invCont.addToWishlist = async function (req, res, next) {
 
   if (!res.locals.loggedin) {
-    req.flash("notice", "Please login or register to use the wishlist.")
+    req.flash("error", "Please login or register to use the wishlist.")
     res.redirect("/account/login")
   }
   const account_id = res.locals.accountData.account_id
   const wishilistExists = await invModel.checkIfWishlistExists(account_id, req.body.inv_id)
   
   if (wishilistExists) {
-    req.flash("notice", "This vehicle is already in your wishlist.")
+    req.flash("error", "This vehicle is already in your wishlist.")
     return res.redirect("back")
   }
 
   const { inv_id } = req.body
   console.log(account_id, inv_id)
   await invModel.addInventoryToWishlist(account_id, inv_id)
-  req.flash("notice", "Vehicle added to your wishlist.")
+  req.flash("success", "Vehicle added to your wishlist.")
   res.redirect("back")
 }
 
@@ -392,7 +392,7 @@ invCont.deleteFromWishlist = async function (req, res, next) {
   const account_id = res.locals.accountData.account_id
   const { inv_id } = req.body
   await invModel.deleteFromWishlist(account_id, inv_id)
-  req.flash("notice", "Vehicle removed from your wishlist.")
+  req.flash("success", "Vehicle removed from your wishlist.")
   res.redirect("back")
 }
 

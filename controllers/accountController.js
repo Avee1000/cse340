@@ -47,7 +47,7 @@ async function buildRegisterAccount(req, res) {
     // regular password and cost (salt is generated automatically)
     hashedPassword = await bcrypt.hashSync(account_password, 10)
   } catch (error) {
-    req.flash("notice", 'Sorry, there was an error processing the registration.')
+    req.flash("error", 'Sorry, there was an error processing the registration.')
     res.status(500).render("account/register", {
       title: "Registration",
       nav,
@@ -66,7 +66,7 @@ async function buildRegisterAccount(req, res) {
   
   if (regResult) {
     req.flash(
-      "notice",
+      "success",
       `Congratulations, you\'ve registered ${account_firstname}. Please log in.`
     )
     let nav = await utilities.getNav()
@@ -76,7 +76,7 @@ async function buildRegisterAccount(req, res) {
       errors: null,
     })
   } else {
-    req.flash("notice", "Sorry, the registration failed.")
+    req.flash("error", "Sorry, the registration failed.")
     res.status(501).render("./account/register", {
       title: "Registration",
       nav,
@@ -120,7 +120,7 @@ async function accountLogin(req, res) {
   const { account_email, account_password } = req.body
   const accountData = await accountModel.getAccountByEmail(account_email)
   if (!accountData) {
-    req.flash("notice", "Please check your credentials and try again.")
+    req.flash("error", "Please check your credentials and try again.")
     res.status(400).render("account/login", {
       title: "Login",
       nav,
@@ -141,7 +141,7 @@ async function accountLogin(req, res) {
       return res.redirect("/account/")
     }
     else {
-      req.flash("notice", "Please check your credentials and try again.")
+      req.flash("error", "Please check your credentials and try again.")
       res.status(400).render("account/login", {
         title: "Login",
         nav,
@@ -156,9 +156,19 @@ async function accountLogin(req, res) {
 
 
 async function logOut(req, res) {
+
   res.clearCookie("jwt")
-  req.flash("notice", "You have been logged out.")
-  return res.redirect("back")
+  req.flash("success", "You have been logged out.")
+
+  res.locals.accountData = null;
+  if (req.session) req.session.destroy(() => {});
+
+  const hasAccount =
+    res.locals &&
+    res.locals.accountData &&
+    res.locals.accountData.account_id;
+
+  return hasAccount ? res.redirect("back") : res.redirect("/");
 }
 
 
@@ -198,10 +208,10 @@ async function updateAccount(req, res) {
   res.cookie("jwt", accessToken, { httpOnly: true, maxAge: 3600 * 1000 })
 
   if (updateResult) {
-    req.flash("notice", "Your account has been updated successfully.")
+    req.flash("success", "Your account has been updated successfully.")
     res.redirect("/")
   } else {
-    req.flash("notice", "Sorry, the update failed. Please try again.")
+    req.flash("error", "Sorry, the update failed. Please try again.")
     res.status(501).render("account/update", {
       title: "Update Account",
       nav
@@ -218,7 +228,7 @@ async function updatePassword(req, res) {
   const account_id = parseInt(res.locals.accountData.account_id)
   const { account_password, account_password_confirm } = req.body
   if (account_password !== account_password_confirm) {
-    req.flash("notice", "Passwords do not match. Please try again.")
+    req.flash("error", "Passwords do not match. Please try again.")
     return res.status(400).render("account/update", {
       title: "Update Account",
       nav,
@@ -230,7 +240,7 @@ async function updatePassword(req, res) {
     // regular password and cost (salt is generated automatically)
     hashedPassword = await bcrypt.hashSync(account_password, 10)
   } catch (error) {
-    req.flash("notice", 'Sorry, there was an error processing the registration.')
+    req.flash("error", 'Sorry, there was an error processing the registration.')
     res.status(500).render("account/update", {
       title: "Update Account",
       nav,
@@ -246,7 +256,7 @@ async function updatePassword(req, res) {
     
   if (updateResult) {
     req.flash(
-      "notice",
+      "success",
       `Congratulations, you've updated your password. Please log in again.`
     )
     res.clearCookie("jwt")
@@ -258,7 +268,7 @@ async function updatePassword(req, res) {
       errors: null,
     })
   } else {
-    req.flash("notice", "Sorry, the registration failed.")
+    req.flash("error", "Sorry, the registration failed.")
     res.status(501).render("account/update", {
       title: "Update Account",
       nav,

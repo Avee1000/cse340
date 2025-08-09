@@ -262,15 +262,54 @@ h1 {
   color: #333;
 }
 
-/* .flash-message {
-  background-color: #a4fcca;
-  color: black;
-  padding: 1em;
-  margin: 2em 0;
-  border-left: 5px solid #1afc7c;
-  display: block;
-  width: 100%;
-} */
+#messages {
+  position: fixed;
+  left: 50%;
+  bottom: 20px;
+  transform: translateX(-50%);
+  z-index: 1000;
+}
+
+#messages ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+#messages ul li {
+  margin-top: 0.5rem;
+  padding: 1em 1.5em;
+  border-radius: 4px;
+  color: #fff;
+  animation: slide-in 0.5s ease-out, fade-out 0.5s 2s forwards;
+}
+
+#messages ul.success li {
+  background-color: #4caf50;
+}
+
+#messages ul.error li {
+  background-color: #f44336;
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+    display: none;
+  }
+}
+
 .flash-message ul {
   list-style-type: none;
   padding: 0;
