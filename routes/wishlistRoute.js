@@ -7,6 +7,9 @@ const utilities = require("../utilities/")
 // Route to display Wishlist
 router.get("/view", utilities.handleErrors(invController.buildWishlist))
 
+router.get("/getWishlistByAccountId/", utilities.handleErrors(invController.getWishlistJSON))
+
+
 // Route to add to Wishlist
 router.post(
     "/add",

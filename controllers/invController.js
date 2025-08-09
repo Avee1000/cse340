@@ -371,6 +371,19 @@ invCont.addToWishlist = async function (req, res, next) {
 }
 
 
+
+invCont.getWishlistJSON = async (req, res, next) => {
+  const account_id = res.locals.accountData.account_id
+  const invData = await invModel.getWishlistByAccountId(account_id)
+  if (invData) {
+    return res.json(invData)
+  } else {
+    next(new Error("No data returned"))
+  }
+}
+
+
+
 invCont.buildWishlist = async function (req, res, next) {
   let nav = await utilities.getNav()
   const account_id = res.locals.accountData.account_id

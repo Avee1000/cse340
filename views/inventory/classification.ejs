@@ -11,6 +11,43 @@
 <script>
   const button = document.querySelectorAll('button')
   button.forEach(button => {
-      button.className = 'btn'
+    button.className = 'btn'
   })
+
+  async function getWishlist() {
+    const url = "/wishlist/getWishlistByAccountId";
+
+    try {
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error(`Server error: ${response.status} ${response.statusText}`);
+      }
+      let wishlistId = [];
+      const data = await response.json();
+      data.forEach(item => {
+        wishlistId.push(item.inv_id);
+      })
+      compare(wishlistId);
+    } catch (err) {
+      console.error("There was a problem:", err.message);
+    }
+  }
+
+  function compare(data){
+    const form = document.querySelectorAll('form')
+    form.forEach(form => {
+      const inv_id = parseInt(form.querySelector('input').value);
+      
+      if (data.includes(inv_id)) {
+        form.querySelector('button').textContent = "Saved";
+        form.querySelector('button').disabled = true;
+      } else {
+        form.querySelector('button').textContent = "Add to Wishlist";
+        form.querySelector('button').disabled = false;
+      }
+    })
+  }
+
+  getWishlist()
 </script>
