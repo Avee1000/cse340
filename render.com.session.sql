@@ -8,7 +8,7 @@ select * from account
 
 UPDATE account
 SET account_type = 'Employee'
-WHERE account_email = 'happy@340.edu';
+WHERE account_email = 'basic@340.edu';
 
 UPDATE account
 SET account_type = 'Admin'
